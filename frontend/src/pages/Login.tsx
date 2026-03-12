@@ -22,33 +22,33 @@ export default function Login({ setUsername }: LoginProps) {
 
                 <input
                     className="border w-full p-2 mb-4 bg-white"
-                    placeholder="username"
+                    placeholder="Username"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                 />
 
                 <button
                     onClick={handleLogin}
-                    className="bg-orange-500 text-white px-4 py-2 rounded w-full mb-1 hover:bg-orange-600"
+                    className="bg-orange-500 text-white px-4 py-2 rounded w-full mb-3 hover:bg-orange-600"
                 >
                     Enter
                 </button>
 
-                <GoogleLogin
-                    onSuccess={(credentialResponse) => {
-                        const decoded = jwtDecode<GoogleUser>(credentialResponse.credential!)
+                <div className="w-full">
+                    <GoogleLogin
+                        text="continue_with"
+                        width="100%"
+                        onSuccess={(credentialResponse) => {
+                            const decoded = jwtDecode<GoogleUser>(credentialResponse.credential!)
+                            const username = decoded.name
 
-                        const username = decoded.name
-
-                        localStorage.setItem("username", username)
-                        setUsername(username)
-
-                        navigate("/home")
-                    }}
-                    onError={() => {
-                        console.log("Google login failed")
-                    }}
-                />
+                            localStorage.setItem("username", username)
+                            setUsername(username)
+                            navigate("/home")
+                        }}
+                        onError={() => console.log("Google login failed")}
+                    />
+                </div>
             </div>
         </div>
     )
